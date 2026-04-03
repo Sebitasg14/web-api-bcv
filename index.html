@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BolívarBase | The Digital Ledger - Conversión de Divisas en Tiempo Real</title>
+    <!-- Meta tags SEO -->
+    <meta name="description" content="BolívarBase es la fuente autoritaria de tasas de cambio en tiempo real para el Bolívar (VES) y el Dólar (USD). Precisión matemática y transparencia total.">
+    
+    <!-- Tipografías Premium: Manrope para títulos, Inter para el cuerpo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+    
+    <!-- Iconos: FontAwesome -->
+    <script src="https://kit.fontawesome.com/your-code.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Estilos locales -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navegación Principal -->
+    <nav class="navbar" id="main-nav">
+        <div class="container">
+            <a href="#" class="logo">
+                <div class="logo-icon"><i class="fas fa-chart-line"></i></div>
+                BolívarBase
+            </a>
+            <ul class="nav-links">
+                <li><a href="#convertir">Convertir</a></li>
+                <li><a href="#tasas">Tasas</a></li>
+                <li><a href="#historial">Historial</a></li>
+                <li><a href="#empresa">Empresa</a></li>
+            </ul>
+            <div class="nav-actions">
+                <a href="#" class="btn-nav">Iniciar Sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sección Hero y Widget de Conversión -->
+    <main class="hero">
+        <div class="container">
+            <header class="hero-content">
+                <h1>Accurate Conversion.<br>Real-time Trust.</h1>
+                <p>Accede a las tasas de cambio de VES a USD más confiables. Construido sobre principios de transparencia y precisión matemática.</p>
+            </header>
+
+            <!-- Widget de Conversión (Glassmorphism) -->
+            <section class="conversion-card" id="convertir">
+                <div class="conversion-grid">
+                    <!-- Cantidad a convertir -->
+                    <div class="conversion-input-group">
+                        <label for="amount-from" class="input-label">Tengo</label>
+                        <input type="number" id="amount-from" class="input-control" value="100">
+                    </div>
+
+                    <!-- Botón de Intercambio -->
+                    <button class="swap-btn" id="swap-currency">
+                        <i class="fas fa-exchange-alt"></i>
+                    </button>
+
+                    <!-- Moneda destino -->
+                    <div class="conversion-input-group">
+                        <label for="amount-to" class="input-label">Recibo</label>
+                        <input type="number" id="amount-to" class="input-control" value="2.5" readonly>
+                    </div>
+                </div>
+
+                <!-- Resultado Destacado -->
+                <div class="result-area">
+                    <span class="result-label">Tasa Indicativa: 1 USD = 40.00 VES</span>
+                    <div class="result-amount">
+                        2.5 <span class="result-currency">USD</span>
+                    </div>
+                    <span class="last-updated">Última actualización: hace 4 minutos • Fuente: BCV</span>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Sección de Tasas de Cambio -->
+    <section class="section-rates" id="tasas">
+        <div class="container">
+            <header class="section-header">
+                <h2>Tasas en Tiempo Real</h2>
+                <div class="last-updated">Actualizado automáticamente cada 60 segundos.</div>
+            </header>
+
+            <table class="rates-table">
+                <!-- BCV -->
+                <tr class="rate-row">
+                    <td>
+                        <div class="source-info">
+                            <div class="source-icon">B</div>
+                            <div class="source-name">BCV (Oficial)</div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="rate-value">36.50 <small>VES</small></span>
+                        <span class="trend up"><i class="fas fa-caret-up"></i> 0.2%</span>
+                    </td>
+                </tr>
+                <!-- Paralelo -->
+                <tr class="rate-row">
+                    <td>
+                        <div class="source-info">
+                            <div class="source-icon">P</div>
+                            <div class="source-name">Monitor Paralelo</div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="rate-value">42.20 <small>VES</small></span>
+                        <span class="trend down"><i class="fas fa-caret-down"></i> 0.5%</span>
+                    </td>
+                </tr>
+                <!-- Binance -->
+                <tr class="rate-row">
+                    <td>
+                        <div class="source-info">
+                            <div class="source-icon">B</div>
+                            <div class="source-name">Binance P2P</div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="rate-value">41.80 <small>VES</small></span>
+                        <span class="trend up"><i class="fas fa-caret-up"></i> 0.1%</span>
+                    </td>
+                </tr>
+                <!-- Dollar Today -->
+                <tr class="rate-row">
+                    <td>
+                        <div class="source-info">
+                            <div class="source-icon">D</div>
+                            <div class="source-name">Dollar Today</div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="rate-value">42.50 <small>VES</small></span>
+                        <span class="trend down"><i class="fas fa-caret-down"></i> 0.3%</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </section>
+
+    <!-- Sección de Funcionalidades (The Digital Ledger) -->
+    <section class="section-features">
+        <div class="container">
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <article class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-sync-alt fa-2x"></i></div>
+                    <h3>Actualización Al Segundo</h3>
+                    <p>Nuestra infraestructura procesa millones de puntos de datos para asegurar que nunca conviertas con datos obsoletos.</p>
+                </article>
+                <!-- Feature 2 -->
+                <article class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-shield-alt fa-2x"></i></div>
+                    <h3>Registro Cifrado</h3>
+                    <p>Cada consulta de tasa se registra en nuestro libro privado para mantener un historial transparente y auditable.</p>
+                </article>
+                <!-- Feature 3 -->
+                <article class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-network-wired fa-2x"></i></div>
+                    <h3>Agregación Directa</h3>
+                    <p>Obtenemos datos directamente de bancos centrales y casas de bolsa para evitar comisiones intermedias ocultas.</p>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="footer-logo">BolívarBase</div>
+                    <p>La fuente de verdad definitiva para el mercado cambiario venezolano. Editorial, preciso y confiable.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Producto</h4>
+                    <ul>
+                        <li><a href="#">Tasas en Vivo</a></li>
+                        <li><a href="#">API de Divisas</a></li>
+                        <li><a href="#">Gráficos Históricos</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Empresa</h4>
+                    <ul>
+                        <li><a href="#">Sobre Nosotros</a></li>
+                        <li><a href="#">Aviso Legal</a></li>
+                        <li><a href="#">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Soporte</h4>
+                    <ul>
+                        <li><a href="#">Documentación</a></li>
+                        <li><a href="#">Centro de Ayuda</a></li>
+                        <li><a href="#">Estatus</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 BolívarBase Digital Ledger. Todos los derechos reservados.</p>
+                <div class="footer-social">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Vinculación del JavaScript (Vacio por ahora) -->
+    <script src="index.js"></script>
+</body>
+</html>
