@@ -3,6 +3,10 @@
   "module": "index.js",
   "type": "module",
   "private": true,
+  "scripts": {
+    "dev" : "bun x serve .",
+    "build" : "bun build index.js --outdir ./dist --minify"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },

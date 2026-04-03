@@ -28,14 +28,17 @@
                 <div class="logo-icon"><i class="fas fa-chart-line"></i></div>
                 BolívarBase
             </a>
-            <ul class="nav-links">
-                <li><a href="#convertir">Convertir</a></li>
-                <li><a href="#tasas">Tasas</a></li>
-                <li><a href="#historial">Historial</a></li>
-                <li><a href="#empresa">Empresa</a></li>
-            </ul>
-            <div class="nav-actions">
-                <a href="#" class="btn-nav">Iniciar Sesión</a>
+            
+            <!-- Botón del Menú Celular -->
+            <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <div class="nav-menu" id="nav-menu">
+                <ul class="nav-links">
+                    <li><a href="#convertir">Convertir</a></li>
+                    <li><a href="#tasas">Tasas</a></li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -217,6 +220,6 @@
     </footer>
 
     <!-- Vinculación del JavaScript (Vacio por ahora) -->
-    <script src="index.js"></script>
+    <script type="module" src="index.js"></script>
 </body>
 </html>

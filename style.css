@@ -147,6 +147,22 @@ a {
     border-radius: var(--radius-md);
     font-weight: 600;
     font-size: 0.875rem;
+    display: inline-block;
+}
+
+.nav-toggle {
+    display: none;
+    font-size: 1.5rem;
+    color: var(--primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-8);
 }
 
 /* --- Hero Section --- */
@@ -451,4 +467,165 @@ a {
 
 .conversion-card, .hero-content, .rate-row {
     animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* --- Responsive Queries --- */
+
+/* Tablets and below */
+@media (max-width: 992px) {
+    .container {
+        padding: 0 var(--spacing-6);
+    }
+
+    .hero h1 {
+        font-size: 3rem;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1.5fr 1fr 1fr;
+    }
+}
+
+/* Mobile Devices */
+@media (max-width: 768px) {
+    /* Navbar Mobile Logic */
+    .nav-toggle {
+        display: block;
+    }
+
+    .nav-menu {
+        position: fixed;
+        top: 80px;
+        left: -100%;
+        width: 100%;
+        height: calc(100vh - 80px);
+        background-color: var(--surface);
+        flex-direction: column;
+        justify-content: center;
+        padding: var(--spacing-12);
+        transition: 0.4s ease;
+        z-index: 1000;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    }
+
+    .nav-menu.active {
+        left: 0;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        gap: var(--spacing-10);
+    }
+
+    .nav-links a {
+        font-size: 1.25rem;
+    }
+
+    .nav-actions {
+        width: 100%;
+        text-align: center;
+    }
+
+    /* Hero Responsive */
+    .hero {
+        padding-top: 140px;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero p {
+        font-size: 1rem;
+    }
+
+    /* Conversion Card Mobile */
+    .conversion-card {
+        padding: var(--spacing-6);
+    }
+
+    .conversion-grid {
+        flex-direction: column;
+        gap: var(--spacing-4);
+    }
+
+    .swap-btn {
+        margin-top: 0;
+        align-self: center;
+        transform: rotate(90deg);
+    }
+
+    .swap-btn:hover {
+        transform: rotate(270deg);
+    }
+
+    .result-amount {
+        font-size: 2.5rem;
+    }
+
+    /* Features Grid Mobile */
+    .features-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-6);
+    }
+
+    .feature-card {
+        text-align: center;
+        background: var(--surface);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-ambient);
+    }
+
+    .feature-icon {
+        margin: 0 auto var(--spacing-4);
+    }
+
+    /* Rates Table Handle Overflow */
+    .section-rates .container {
+        overflow-x: auto;
+    }
+    
+    .rates-table {
+        min-width: 500px;
+    }
+
+    /* Footer Responsive */
+    .footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-8);
+    }
+
+    .footer-col {
+        grid-column: span 2;
+        text-align: center;
+        margin-bottom: var(--spacing-4);
+    }
+}
+
+/* Small Phones */
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .result-amount {
+        font-size: 2rem;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-col {
+        grid-column: span 1;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--spacing-4);
+        text-align: center;
+    }
 }
