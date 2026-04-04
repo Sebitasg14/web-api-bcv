@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (success) {
             resultSection()
             printConvertions()
+            console.log(conversionRate)
         } else {
             console.error('No se pudo obtener la tasa de conversión. Verifica tu conexión o la API.');
         }
@@ -78,6 +79,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     //Lista debajo de conversion
     function resultSection(){
+        console.log('Tipo de dato:', typeof conversionRate);
+        console.log('¿Es Array?:', Array.isArray(conversionRate));
+        console.log('Contenido:', conversionRate);
         let priceUsdOficial = conversionRate.find((cotizacion) => cotizacion.fuente === 'oficial')?.valor;
         if (conversionRate) {
             showConversionLabel.textContent = `Tasa de conversión: 1 USD = ${priceUsdOficial} VES`;
