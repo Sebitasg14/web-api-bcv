@@ -57,7 +57,7 @@
                     <!-- Cantidad a convertir -->
                     <div class="conversion-input-group">
                         <label for="amount-from" class="input-label">Tengo</label>
-                        <input type="number" id="amount-from" class="input-control" value="100">
+                        <input type="number" id="amount-from" class="input-control" value="" placeholder="Ingresa la cantidad en dolares">
                     </div>
 
                     <!-- Botón de Intercambio -->
@@ -68,15 +68,15 @@
                     <!-- Moneda destino -->
                     <div class="conversion-input-group">
                         <label for="amount-to" class="input-label">Recibo</label>
-                        <input type="number" id="amount-to" class="input-control" value="2.5" readonly>
+                        <input type="number" id="amount-to" class="input-control" value="" readonly placeholder="Recibes esta cantidad en bolivares">
                     </div>
                 </div>
 
                 <!-- Resultado Destacado -->
                 <div class="result-area">
-                    <span class="result-label">Tasa Indicativa: 1 USD = 40.00 VES</span>
+                    <span class="result-label">Tasa Indicativa: 1 USD = ... Bs</span>
                     <div class="result-amount">
-                        2.5 <span class="result-currency">USD</span>
+                        <span id="result-convertion">...</span> <span class="result-currency">USD</span>
                     </div>
                     <span class="last-updated">Última actualización: hace 4 minutos • Fuente: BCV</span>
                 </div>
@@ -93,58 +93,7 @@
             </header>
 
             <table class="rates-table">
-                <!-- BCV -->
-                <tr class="rate-row">
-                    <td>
-                        <div class="source-info">
-                            <div class="source-icon">B</div>
-                            <div class="source-name">BCV (Oficial)</div>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="rate-value">36.50 <small>VES</small></span>
-                        <span class="trend up"><i class="fas fa-caret-up"></i> 0.2%</span>
-                    </td>
-                </tr>
-                <!-- Paralelo -->
-                <tr class="rate-row">
-                    <td>
-                        <div class="source-info">
-                            <div class="source-icon">P</div>
-                            <div class="source-name">Monitor Paralelo</div>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="rate-value">42.20 <small>VES</small></span>
-                        <span class="trend down"><i class="fas fa-caret-down"></i> 0.5%</span>
-                    </td>
-                </tr>
-                <!-- Binance -->
-                <tr class="rate-row">
-                    <td>
-                        <div class="source-info">
-                            <div class="source-icon">B</div>
-                            <div class="source-name">Binance P2P</div>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="rate-value">41.80 <small>VES</small></span>
-                        <span class="trend up"><i class="fas fa-caret-up"></i> 0.1%</span>
-                    </td>
-                </tr>
-                <!-- Dollar Today -->
-                <tr class="rate-row">
-                    <td>
-                        <div class="source-info">
-                            <div class="source-icon">D</div>
-                            <div class="source-name">Dollar Today</div>
-                        </div>
-                    </td>
-                    <td>
-                        <span class="rate-value">42.50 <small>VES</small></span>
-                        <span class="trend down"><i class="fas fa-caret-down"></i> 0.3%</span>
-                    </td>
-                </tr>
+                
             </table>
         </div>
     </section>

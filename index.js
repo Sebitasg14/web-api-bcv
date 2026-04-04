@@ -6,9 +6,16 @@
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    const amountInputFrom = document.getElementById('amount-from');
+    const amountInputTo = document.getElementById('amount-to');
+    const showConversionLabel = document.querySelector('.result-label');
+    const showConversionAmount = document.querySelector('.result-amount');
+    const tableConvertions = document.querySelector('.rates-table')
     console.log(
         'BolívarBase: Interface Loaded. Ready for logic implementation.'
     );
+
+    let conversionRate = null; // Aquí se almacenará la tasa de conversión obtenida
 
     // --- Lógica de Menú Mobile ---
     const navToggle = document.getElementById('nav-toggle');
@@ -43,7 +50,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Lógica de Conversión (Para que el usuario implemente) ---
     // Aquí puedes añadir tus escuchadores de eventos y lógica de conversión
-
+    
+    async function initProcess() {
+        const success = await obtenerPrecioDolares();
+        if (success) {
+            resultSection()
+            printConvertions()
+        } else {
+            console.error('No se pudo obtener la tasa de conversión. Verifica tu conexión o la API.');
+        }
+    }
+    
     async function obtenerPrecioDolares() {
         try {
             const controller = new AbortController();
@@ -53,12 +70,62 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(`Error al obtener datos: ${response.status}`);
             clearTimeout(id);
             const data = await response.json();
-            console.log(data);
-            return data;
+            conversionRate = data
+            return true
         } catch (error) {
             console.error('Error al obtener el precio de los dólares:', error);
         }
     }
+    //Lista debajo de conversion
+    function resultSection(){
+        let priceUsdOficial = conversionRate.find((cotizacion) => cotizacion.fuente === 'oficial')?.valor;
+        if (conversionRate) {
+            showConversionLabel.textContent = `Tasa de conversión: 1 USD = ${priceUsdOficial} VES`;
+        }
+    }
+    
+    function convertCurrency(value){
+        if (amountInputFrom.value === '') {
+            showConversionAmount.textContent = '...'
+            return
+        }
+        if (isNaN(value) || conversionRate === null) {
+            showConversionAmount.textContent = 'Ingrese un monto válido y asegúrese de que la tasa de conversión esté disponible.';
+            return;
+        }
+        const convertedAmount = value * conversionRate.find((cotizacion) => cotizacion.fuente === 'oficial')?.valor;
+        showConversionAmount.textContent = `${convertedAmount.toFixed(2)} Bs`;
+        amountInputTo.value = `${convertedAmount.toFixed(2)}`;
+    }
 
-    obtenerPrecioDolares();
+    amountInputFrom.addEventListener('input', (e) => {
+        const valor = parseFloat(e.target.value)
+        convertCurrency(valor)
+    })
+    
+    function printConvertions(){
+        tableConvertions.innerHTML = ''
+        conversionRate.forEach((e) => {
+            const tr = document.createElement('tr')
+            tr.classList.add('rate-row')
+            let classTrend = e.valor > e.valorAnterior ? 'up' : 'down'
+            let porcentage = ((e.valor - e.valorAnterior) / e.valorAnterior) * 100
+            tr.innerHTML = `
+                <td>
+                    <div class="source-info">
+                        <div class="source-icon">${e.fuente[0].toUpperCase()}</div>
+                        <div class="source-name">${e.nombre}</div>
+                    </div>
+                </td>
+                <td>
+                    <span class="rate-value">${e.valor.toFixed(2)} <small>Bs</small></span>
+                    <span class="trend ${classTrend}"><i class="fas fa-caret-${classTrend}"></i> ${Math.abs(porcentage).toFixed(2)}%</span>
+                </td>
+            `;
+            tableConvertions.appendChild(tr)
+        })
+    }
+
+    initProcess();
+    
 });
