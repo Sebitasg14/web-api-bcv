@@ -56,7 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (success) {
             resultSection()
             printConvertions()
-            console.log(conversionRate)
         } else {
             console.error('No se pudo obtener la tasa de conversión. Verifica tu conexión o la API.');
         }
@@ -66,16 +65,19 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const controller = new AbortController();
             const id = setTimeout(() => controller.abort(), 15000);
-            const response = await fetch('/api/api');
+            const response = await fetch('/api/api', {
+                signal: controller.signal
+            });
             if (!response.ok)
                 throw new Error(`Error al obtener datos: ${response.status}`);
-            clearTimeout(id);
             const data = await response.json();
+            clearTimeout(id)
             conversionRate = data
             return true
         } catch (error) {
             console.error('Error al obtener el precio de los dólares:', error);
-        }
+            return false
+        } 
     }
     //Lista debajo de conversion
     function resultSection(){
@@ -110,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const tr = document.createElement('tr')
             tr.classList.add('rate-row')
             let classTrend = e.valor > e.valorAnterior ? 'up' : 'down'
-            let porcentage = ((e.valor - e.valorAnterior) / e.valorAnterior) * 100
+            let porcentage = e.valorAnterior ? ((e.valor - e.valorAnterior) / e.valorAnterior) * 100 : 0
             tr.innerHTML = `
                 <td>
                     <div class="source-info">

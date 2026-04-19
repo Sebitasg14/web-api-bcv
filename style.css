@@ -6,13 +6,13 @@
 
 :root {
     /* Color Palette - Tokens from Stitch Project */
-    --primary: #1E3A8A;
-    --primary-container: #264191;
+    --primary: #4F46E5; /* Vibrant Indigo */
+    --primary-container: #3730A3;
     --on-primary: #ffffff;
-    --secondary: #505f76;
-    --secondary-container: #d0e1fb;
-    --tertiary: #00311f;
-    --tertiary-container: #27c38a; /* Signature Emerald */
+    --secondary: #64748B;
+    --secondary-container: #F1F5F9;
+    --tertiary: #10B981;
+    --tertiary-container: #34D399; /* Vibrant Green */
     --on-tertiary-container: #ffffff;
     
     --background: #f7f9fb;
@@ -628,4 +628,38 @@ a {
         gap: var(--spacing-4);
         text-align: center;
     }
+}
+
+/* --- Student Project Badge --- */
+.student-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(79, 70, 229, 0.1);
+    color: var(--primary);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--spacing-6);
+    border: 1px solid rgba(79, 70, 229, 0.2);
+}
+
+.student-badge i {
+    font-size: 0.875rem;
+}
+
+/* Glassmorphism Refinement */
+.conversion-card {
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.result-amount {
+    background: linear-gradient(135deg, var(--primary), var(--tertiary-container));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
