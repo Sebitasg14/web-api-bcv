@@ -53,6 +53,7 @@
     padding: 0;
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -88,8 +89,8 @@ a {
     height: 80px;
     display: flex;
     align-items: center;
-    background-color: transparent;
-    position: absolute;
+    background-color: var(--background);
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -131,7 +132,7 @@ a {
 }
 
 .nav-links a {
-    font-size: 0.875rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--on-surface-variant);
 }
@@ -204,6 +205,44 @@ a {
     margin: 0 auto;
     position: relative;
     border: 1px solid var(--outline-variant);
+}
+
+/* Source Selector - Segmented Control */
+.source-selector {
+    display: flex;
+    background-color: var(--surface-container-low);
+    padding: var(--spacing-1);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--spacing-8);
+    gap: var(--spacing-1);
+}
+
+.source-item {
+    flex: 1;
+    border: none;
+    background: none;
+    padding: 10px 5px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--on-surface-variant);
+    cursor: pointer;
+    border-radius: calc(var(--radius-md) - 2px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-2);
+}
+
+.source-item.active {
+    background-color: var(--surface);
+    color: var(--primary);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.source-item:hover:not(.active) {
+    background-color: var(--surface-container);
 }
 
 .conversion-grid {
@@ -424,8 +463,9 @@ a {
 }
 
 .footer-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
     gap: var(--spacing-10);
     margin-bottom: var(--spacing-12);
 }
@@ -460,8 +500,19 @@ a {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     justify-content: space-between;
-    font-size: 0.75rem;
+    font-size: .85rem;
 }
+
+.footer-social a {
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.footer-social a:hover {
+    color: white;
+    transition: all 0.3s ease;
+}
+
 
 /* Animations */
 @keyframes fadeIn {
@@ -485,9 +536,6 @@ a {
         font-size: 3rem;
     }
 
-    .footer-grid {
-        grid-template-columns: 1.5fr 1fr 1fr;
-    }
 }
 
 /* Mobile Devices */
@@ -500,7 +548,7 @@ a {
     .nav-menu {
         position: fixed;
         top: 80px;
-        left: -100%;
+        right: -100%;
         width: 100%;
         height: calc(100vh - 80px);
         background-color: var(--surface);
@@ -513,7 +561,7 @@ a {
     }
 
     .nav-menu.active {
-        left: 0;
+        right: 0;
     }
 
     .nav-links {
@@ -531,6 +579,7 @@ a {
         width: 100%;
         text-align: center;
     }
+
 
     /* Hero Responsive */
     .hero {
@@ -552,6 +601,7 @@ a {
 
     .conversion-grid {
         flex-direction: column;
+        align-items: normal;
         gap: var(--spacing-4);
     }
 
@@ -588,7 +638,7 @@ a {
 
     /* Rates Table Handle Overflow */
     .section-rates .container {
-        overflow-x: auto;
+        overflow-x: hidden;
     }
     
     .rates-table {
@@ -597,12 +647,10 @@ a {
 
     /* Footer Responsive */
     .footer-grid {
-        grid-template-columns: 1fr 1fr;
         gap: var(--spacing-8);
     }
 
     .footer-col {
-        grid-column: span 2;
         text-align: center;
         margin-bottom: var(--spacing-4);
     }
@@ -618,19 +666,38 @@ a {
         font-size: 2rem;
     }
 
-    .footer-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .footer-col {
-        grid-column: span 1;
-    }
-
     .footer-bottom {
         flex-direction: column;
         align-items: center;
         gap: var(--spacing-4);
         text-align: center;
+    }
+
+    .rates-table {
+        min-width: 360px;
+    }
+
+    .rate-row td{
+        padding: var(--spacing-2);
+    }
+
+    .rate-value {
+        font-size: .95rem;
+    }
+    
+
+    .source-name{
+        font-size: .95rem;
+    }
+
+    .source-icon{
+        width: 30px;
+        height: 30px;
+        font-size: .9rem;
+    }
+
+    .trend {
+        font-size: .7rem;
     }
 }
 

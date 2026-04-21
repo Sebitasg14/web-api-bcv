@@ -7,13 +7,12 @@ export default async function handler(req, res) {
 
 
     try {
-        const respuesta = await fetch(`${API_URL}/v1/usd-all`, {
+        const respuesta = await fetch(`${API_URL}/v1/cotizaciones-all`, {
             headers: { 'x-api-key': API_KEY }
         });
 
         const datos = await respuesta.json();
 
-        // Enviamos los datos al frontend (El servidor de Bun se encarga del resto)
         res.status(200).json(datos);
     } catch (error) {
         res.status(500).json({ error: error.message });

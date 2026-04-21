@@ -4,14 +4,14 @@
  * El usuario se encargará de implementar la lógica para practicar.
  */
 
-
 document.addEventListener('DOMContentLoaded', () => {
     const amountInputFrom = document.getElementById('amount-from');
     const amountInputTo = document.getElementById('amount-to');
     const showConversionLabel = document.querySelector('.result-label');
     const showConversionAmount = document.querySelector('.result-amount');
     const swapCurrency = document.getElementById('swap-currency');
-    const tableConvertions = document.querySelector('.rates-table')
+    const tableConvertions = document.querySelector('.rates-table');
+    const sourceItems = document.querySelectorAll('.source-item')
     console.log(
         'BolívarBase: Interface Loaded. Ready for logic implementation.'
     );
@@ -52,17 +52,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Lógica de Conversión (Para que el usuario implemente) ---
     // Aquí puedes añadir tus escuchadores de eventos y lógica de conversión
-    
+
     async function initProcess() {
         const success = await obtenerPrecioDolares();
         if (success) {
-            resultSection()
-            printConvertions()
+            resultSection();
+            printConvertions();
         } else {
-            console.error('No se pudo obtener la tasa de conversión. Verifica tu conexión o la API.');
+            console.error(
+                'No se pudo obtener la tasa de conversión. Verifica tu conexión o la API.'
+            );
         }
     }
-    
+
     async function obtenerPrecioDolares() {
         try {
             const controller = new AbortController();
@@ -73,82 +75,154 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!response.ok)
                 throw new Error(`Error al obtener datos: ${response.status}`);
             const data = await response.json();
-            clearTimeout(id)
-            conversionRate = data
-            return true
+            clearTimeout(id);
+            conversionRate = data;
+            return true;
         } catch (error) {
             console.error('Error al obtener el precio de los dólares:', error);
-            return false
-        } 
+            return false;
+        }
     }
     //Lista debajo de conversion
-    function resultSection(){
-        let priceUsdOficial = conversionRate.find((cotizacion) => cotizacion.fuente === 'oficial')?.valor;
+    function resultSection(source = 'Dolar') {
+        let priceUsdOficial = conversionRate.find((cotizacion) => cotizacion.nombre === source)?.valor;
+        let priceUsdParalelo = conversionRate.find((cotizacion) => cotizacion.nombre === 'Paralelo')?.valor;
+        
         if (conversionRate) {
-            showConversionLabel.textContent = `Tasa de conversión: 1 USD = ${priceUsdOficial} VES`;
+            if (source === 'Dolar') {
+                showConversionLabel.textContent = `Tasa de conversión: 1 USD = ${priceUsdOficial.toFixed(2)} Bs`;
+            } else if (source === 'Paralelo') {
+                showConversionLabel.textContent = `Tasa de conversión: 1 USD = ${priceUsdParalelo.toFixed(2)} Bs`;
+            } else if (source === 'Euro') {
+                showConversionLabel.textContent = `Tasa de conversión: 1 EUR = ${priceUsdOficial.toFixed(2)} Bs`;
+            } 
         }
     }
 
-    function swapButton(){
-        isSwapped = !isSwapped;
-        console.log(isSwapped)
-        if (isSwapped) {
-            amountInputFrom.placeholder = 'Ingresa la cantidad en bolivares'
-            amountInputTo.placeholder = 'Recibes esta cantidad en dolares'
-        } else {
-            amountInputFrom.placeholder = 'Ingresa la cantidad en dolares'
-            amountInputTo.placeholder = 'Recibes esta cantidad en bolivares'
+    function swapButton() {
+        if (amountInputFrom.value === ''){
+            isSwapped = !isSwapped;
+            updatePlaceholders()
         }
     }
-    
-    swapCurrency.addEventListener('click', swapButton);
-    
-    function convertCurrency(value){
-        if (amountInputFrom.value === '') {
-            showConversionAmount.textContent = '...'
-            amountInputTo.value = ''
-            return
+
+    let sourceSwap = 'Dolar'
+
+    swapCurrency.addEventListener('click', () => {
+        swapButton()
+    });
+
+    function updatePlaceholders(){
+        if (isSwapped) {
+            if (sourceSwap === 'Dolar' || sourceSwap === 'Paralelo') {
+                amountInputFrom.placeholder =
+                    'Ingresa la cantidad en bolivares';
+                amountInputTo.placeholder = 'Recibes esta cantidad en dolares';
+                showConversionAmount.textContent = '... USD';
+            } else if (sourceSwap === 'Euro') {
+                amountInputFrom.placeholder =
+                    'Ingresa la cantidad en bolivares';
+                amountInputTo.placeholder = 'Recibes esta cantidad en euros';
+                showConversionAmount.textContent = '... EUR';
+            }
+        } else {
+            if (sourceSwap === 'Dolar' || sourceSwap === 'Paralelo') {
+                amountInputFrom.placeholder = 'Ingresa la cantidad en dolares';
+                amountInputTo.placeholder =
+                    'Recibes esta cantidad en bolivares';
+                showConversionAmount.textContent = '... Bs';
+            } else if (sourceSwap === 'Euro') {
+                amountInputFrom.placeholder = 'Ingresa la cantidad en euros';
+                amountInputTo.placeholder =
+                    'Recibes esta cantidad en bolivares';
+                showConversionAmount.textContent = '... Bs';
+            }
         }
-        if (isNaN(value) || conversionRate === null) {
-            showConversionAmount.textContent = 'Ingrese un monto válido y asegúrese de que la tasa de conversión esté disponible.';
+    }
+
+    sourceItems.forEach((item) => {
+        item.addEventListener('click', (e) => {
+            if (e.target !== undefined){
+                const source = e.target.dataset.source;
+                sourceItems.forEach((i) => i.classList.remove('active'));
+                e.target.classList.add('active');
+                resultSection(source);
+                convertCurrency(0, source);
+                sourceSwap = source
+                updatePlaceholders()
+                amountInputFrom.value = '';
+                amountInputTo.value = '';
+            } else {
+                sourceItems[0].classList.add('active');
+                resultSection();
+                convertCurrency();
+                updatePlaceholders()
+            }
+        });
+    });
+
+    function convertCurrency(value = 0, source = 'Dolar') {
+        if (amountInputFrom.value === '') {
+            showConversionAmount.textContent = '...';
+            amountInputTo.value = '';
             return;
         }
-        if (!isSwapped){
-            const convertedAmount =
-                value *
-                conversionRate.find(
-                    (cotizacion) => cotizacion.fuente === 'oficial'
-                )?.valor;
+        if (isNaN(value) || conversionRate === null) {
+            showConversionAmount.textContent =
+                'Ingrese un monto válido y asegúrese de que la tasa de conversión esté disponible.';
+            return;
+        }
+        let amount = 0
+        const priceUsdOficial = conversionRate.find((cotizacion) => cotizacion.nombre === 'Dolar')?.valor;
+        const priceUsdEuro = conversionRate.find((cotizacion) => cotizacion.nombre === 'Euro')?.valor;
+        const priceUsdParalelo = conversionRate.find((cotizacion) => cotizacion.nombre === 'Paralelo')?.valor;
+        const swappedConversionTextTrue = source === 'Dolar' || source === 'Paralelo' ? 'USD' : 'EUR';
+        
+        if (source === 'Dolar'){
+            amount = priceUsdOficial;
+        } else if (source === 'Paralelo') {
+            amount = priceUsdParalelo;
+        } else if (source === 'Euro'){
+            amount = priceUsdEuro;
+        }
+
+        if (!isSwapped) {
+            const convertedAmount = value * amount
             showConversionAmount.textContent = `${convertedAmount.toFixed(2)} Bs`;
             amountInputTo.value = `${convertedAmount.toFixed(2)}`;
         } else {
-            const convertedAmount =
-                value /
-                conversionRate.find(
-                    (cotizacion) => cotizacion.fuente === 'oficial'
-                )?.valor;
-            showConversionAmount.textContent = `${convertedAmount.toFixed(2)} USD`;
+            const convertedAmount = value / amount
+            showConversionAmount.textContent = `${convertedAmount.toFixed(2)},${swappedConversionTextTrue}`;
             amountInputTo.value = `${convertedAmount.toFixed(2)}`;
         }
     }
 
     amountInputFrom.addEventListener('input', (e) => {
-        const valor = parseFloat(e.target.value)
-        convertCurrency(valor)
-    })
-    
-    function printConvertions(){
-        tableConvertions.innerHTML = ''
+        let dataset = null
+        sourceItems.forEach((item) => {
+            if (item.classList.contains('active')){
+                dataset = item.dataset.source;
+            }
+        })
+        const valor = parseFloat(e.target.value);
+        convertCurrency(valor, dataset);
+    });
+
+    function printConvertions() {
+        tableConvertions.innerHTML = '';
         conversionRate.forEach((e) => {
-            const tr = document.createElement('tr')
-            tr.classList.add('rate-row')
-            let classTrend = e.valor > e.valorAnterior ? 'up' : 'down'
-            let porcentage = e.valorAnterior ? ((e.valor - e.valorAnterior) / e.valorAnterior) * 100 : 0
+            const tr = document.createElement('tr');
+            tr.classList.add('rate-row');
+            let classTrend = e.valor > e.valorAnterior ? 'up' : 'down';
+            let porcentage = e.valorAnterior
+                ? ((e.valor - e.valorAnterior) / e.valorAnterior) * 100
+                : 0;
+            const setNameText = e.fuente === 'paralelo' ? e.nombre + ' ' + e.moneda : e.nombre + ' BCV'
             tr.innerHTML = `
                 <td>
                     <div class="source-info">
                         <div class="source-icon">${e.fuente[0].toUpperCase()}</div>
-                        <div class="source-name">${e.nombre}</div>
+                        <div class="source-name">${setNameText}</div>
                     </div>
                 </td>
                 <td>
@@ -156,10 +230,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     <span class="trend ${classTrend}"><i class="fas fa-caret-${classTrend}"></i> ${Math.abs(porcentage).toFixed(2)}%</span>
                 </td>
             `;
-            tableConvertions.appendChild(tr)
-        })
+            tableConvertions.appendChild(tr);
+        });
     }
 
     initProcess();
-    
 });
