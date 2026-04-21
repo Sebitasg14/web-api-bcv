@@ -10,11 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const amountInputTo = document.getElementById('amount-to');
     const showConversionLabel = document.querySelector('.result-label');
     const showConversionAmount = document.querySelector('.result-amount');
+    const swapCurrency = document.getElementById('swap-currency');
     const tableConvertions = document.querySelector('.rates-table')
     console.log(
         'BolívarBase: Interface Loaded. Ready for logic implementation.'
     );
 
+    let isSwapped = false;
     let conversionRate = null; // Aquí se almacenará la tasa de conversión obtenida
 
     // --- Lógica de Menú Mobile ---
@@ -86,19 +88,48 @@ document.addEventListener('DOMContentLoaded', () => {
             showConversionLabel.textContent = `Tasa de conversión: 1 USD = ${priceUsdOficial} VES`;
         }
     }
+
+    function swapButton(){
+        isSwapped = !isSwapped;
+        console.log(isSwapped)
+        if (isSwapped) {
+            amountInputFrom.placeholder = 'Ingresa la cantidad en bolivares'
+            amountInputTo.placeholder = 'Recibes esta cantidad en dolares'
+        } else {
+            amountInputFrom.placeholder = 'Ingresa la cantidad en dolares'
+            amountInputTo.placeholder = 'Recibes esta cantidad en bolivares'
+        }
+    }
+    
+    swapCurrency.addEventListener('click', swapButton);
     
     function convertCurrency(value){
         if (amountInputFrom.value === '') {
             showConversionAmount.textContent = '...'
+            amountInputTo.value = ''
             return
         }
         if (isNaN(value) || conversionRate === null) {
             showConversionAmount.textContent = 'Ingrese un monto válido y asegúrese de que la tasa de conversión esté disponible.';
             return;
         }
-        const convertedAmount = value * conversionRate.find((cotizacion) => cotizacion.fuente === 'oficial')?.valor;
-        showConversionAmount.textContent = `${convertedAmount.toFixed(2)} Bs`;
-        amountInputTo.value = `${convertedAmount.toFixed(2)}`;
+        if (!isSwapped){
+            const convertedAmount =
+                value *
+                conversionRate.find(
+                    (cotizacion) => cotizacion.fuente === 'oficial'
+                )?.valor;
+            showConversionAmount.textContent = `${convertedAmount.toFixed(2)} Bs`;
+            amountInputTo.value = `${convertedAmount.toFixed(2)}`;
+        } else {
+            const convertedAmount =
+                value /
+                conversionRate.find(
+                    (cotizacion) => cotizacion.fuente === 'oficial'
+                )?.valor;
+            showConversionAmount.textContent = `${convertedAmount.toFixed(2)} USD`;
+            amountInputTo.value = `${convertedAmount.toFixed(2)}`;
+        }
     }
 
     amountInputFrom.addEventListener('input', (e) => {

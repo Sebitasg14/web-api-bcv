@@ -1,6 +1,6 @@
 # 🚀 BolívarBase
 
-![BolívarBase Preview](assets/preview.png)
+![BolívarBase Preview](assets/preview-2.png)
 
 **BolívarBase** es una aplicación web moderna diseñada para la consulta y conversión de divisas en tiempo real, enfocada principalmente en el mercado venezolano (VES/USD).
 
@@ -23,7 +23,7 @@ Soy un **futuro desarrollador de software** y este sitio es una demostración de
 ## 🌍 Despliegue
 
 Puedes ver el proyecto en vivo aquí:  
-[https://web-api-adqu3vsoq-sebitasg14s-projects.vercel.app/](https://web-api-adqu3vsoq-sebitasg14s-projects.vercel.app/)
+[https://web-api-bcv.vercel.app/](https://web-api-bcv.vercel.app/)
 
 ## 🚀 Instalación y Uso Local
 
