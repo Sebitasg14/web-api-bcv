@@ -674,7 +674,7 @@ a {
     }
 
     .rates-table {
-        min-width: 360px;
+        min-width: 330px;
     }
 
     .rate-row td{
@@ -690,6 +690,10 @@ a {
         font-size: .95rem;
     }
 
+    .source-item {
+        font-size: .72rem;
+    }
+
     .source-icon{
         width: 30px;
         height: 30px;
@@ -698,6 +702,14 @@ a {
 
     .trend {
         font-size: .7rem;
+    }
+
+    .conversion-card {
+        padding: var(--spacing-4);
+    }
+
+    .input-control::placeholder{
+        font-size: .9rem;
     }
 }
 
